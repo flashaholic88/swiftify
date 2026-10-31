@@ -56,7 +56,7 @@ you can download swiftify for your operating system at [https://shredos.dev](htt
 
 ### set up soloist
 
-this is the solution of 80% of problems, and the often also the error message "Spotify will not play this track"
+this is the solution of 80% of problems, and often also for the error message "Spotify will not play this track"
 
 spotify refuses librespot the keys to decrypt songs mostly on newer accounts (librespot's
 logs say `error audio key 0 1`), so every song fails. swiftify can play
