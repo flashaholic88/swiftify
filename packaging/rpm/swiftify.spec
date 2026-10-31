@@ -33,7 +33,13 @@ BuildRequires:  cmake(QCoro6Core)
 BuildRequires:  cmake(QCoro6Network)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(alsa)
+# libressl provides pkgconfig(openssl) on opensuse too, and openssl-sys
+# rejects libressl newer than 4.3
+%if 0%{?suse_version}
+BuildRequires:  libopenssl-devel
+%else
 BuildRequires:  pkgconfig(openssl)
+%endif
 
 Requires:       hicolor-icon-theme
 Recommends:     xdg-desktop-portal
