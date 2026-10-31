@@ -1,0 +1,15 @@
+specfile_path: packaging/rpm/swiftify.spec
+upstream_package_name: swiftify
+upstream_tag_template: v{version}
+
+jobs:
+  - job: copr_build
+    trigger: release
+    owner: shredos
+    project: swiftify
+    enable_net: true
+    targets:
+      - fedora-all-x86_64
+      - fedora-all-aarch64
+      - opensuse-tumbleweed-x86_64
+      - opensuse-tumbleweed-aarch64
