@@ -54,45 +54,47 @@ you can download swiftify for your operating system at [https://shredos.dev](htt
 
 ## Tutorials
 
-### "spotify will not play this track" (soloist)
+### set up soloist
 
-spotify refuses librespot the keys to decrypt songs on newer accounts (librespot's
+this is the solution of 80% of problems, and the often also the error message "Spotify will not play this track"
+
+spotify refuses librespot the keys to decrypt songs mostly on newer accounts (librespot's
 logs say `error audio key 0 1`), so every song fails. swiftify can play
-spotify's songs through [spotify soloist](https://developer.spotify.com/documentation/soloist)
-instead, spotify's own connect client, which isnt affected.
+spotify's songs through [spotify soloist](https://developer.spotify.com/documentation/soloist) instead, spotify's own connect client, which isnt affected.
 
-1. install soloist from its [getting started guide](https://developer.spotify.com/documentation/soloist/tutorials/getting-started)
-   (`~/.local/bin/soloist`, `/opt/homebrew/bin/soloist`, on your `PATH`, or beside `swiftify.exe` on windows)
-2. make a soloist api key in the [developer dashboard](https://developer.spotify.com/dashboard/soloist)
-   and put it in `~/.config/soloist/api-key` (or `%LOCALAPPDATA%\soloist\api-key` on windows, or `SOLOIST_API_KEY`)
-3. start swiftify. it starts soloist itself, as a connect device called "Swiftify".
-   the first time, pick "Swiftify" once in the devices list of the spotify desktop app on
-   the same computer (or the phone app), so soloist is signed in
-4. press play in swiftify
+set up:
 
-on linux with pipewire, swiftify makes a sink called "Swiftify (Soloist)" for soloist to play into,
-and plays that on through its own output, so the equalizer and the visualizers still work.
-under pulseaudio alone, or on macos and windows, soloist plays straight to the speakers.
-`SWIFTIFY_SOLOIST_ROUTE=off` does that on purpose. tempo and pitch only work on your own
-music files, and crossfade waits for each song to end. soloist builds expire after 90 days,
-download a new one when it says so.
-`SWIFTIFY_PLAYBACK=librespot swiftify` goes back to librespot alone.
+1. [download the soloist binary from spotify](https://developer.spotify.com/documentation/soloist/tutorials/getting-started#download-spotify-soloist)
+2. extract the downloaded .zip file and 
+   1. WINDOWS: move `soloist.exe` to the exact same folder your `swiftify.exe` is in
+   2. MACOS or LINUX: move the soloist binary to `~/.local/bin/`, `/opt/homebrew/bin/` or anywhere on your `PATH` 
+3. go to the [spotify developer soloist dashboard](https://developer.spotify.com/dashboard/soloist) and generate and copy your API key from there.
+4. create a text file in `%LOCALAPPDATA%\soloist` on windows or `~/.config/soloist/` called `api-key`. you can also put your api key inside of `SOLOIST_API_KEY` (this path and filename must match exactly this. please really check this twice as windows loves to append ".txt" to text files and doesnt show it)
+5. open that file with a text editor and paste your previously copied api key into this file.
+6. save the file.
+7. open spotify on your phone or on your pc and go to the devices popup
+8. open swiftify and try to play something. you should get an error saying you need to connect soloist.
+9. a "Swiftify" device should show up in the devices in the native spotify app. Click that. if it doesnt show up fully restart swiftify and try again.
+10. once it connects try to play anything. Congratulations you just set up Spotify soloist
 
-if spotify on your phone doesnt list "Swiftify" for step 3, a firewall (ufw) is probably
+
+you can disable soloist manually with `SWIFTIFY_PLAYBACK=librespot`
+
+if spotify doesnt list "Swiftify" for step 9, please retry or a firewall (ufw) is probably
 dropping the pairing connection; pair from the spotify desktop app on the same computer.
 
 ### Discord RPC
 
-Enable under Settings → Account → Discord Rich Presence (disabled by default) to broadcast 
-your current track, artist, public album cover, and playback status to the Discord desktop app.
-This uses a standard listening activity named Swiftify; pauses freeze progress and display Paused. 
-Because this uses custom RPC rather than Spotify's official account integration, Listen Along is not supported.
-Ensure Discord’s own activity privacy settings allow game/activity status.
-To use Discord RPC you need to create an application on [Discord's Developer Portal](https://discord.com/developers/applications)
-and copy it's ID into the settings. Swiftify connects over local IPC (Unix sockets or Windows named pipes) with zero external
-SDKs and automatic reconnection.
-It checks standard paths for native, Flatpak, Snap, Canary, PTB, and third-party clients like Vesktop.
-For more verbose logging run swiftify with `QT_LOGGING_RULES="swiftify.discord.debug=true"`
+enable "Discord Rick Presence" inside the swiftify account settings to display your current track, artist, public album cover
+and playback status on your Discord profile. the Discord app needs to be running for this to work. I recommend disabling
+"Display spotify as your status" if you have connected your Spotify account so it doesnt show twice.
+
+set up discord rpc:
+1. create an application on [Discord's Developer Portal](https://discord.com/developers/applications)
+2. copy its public AppID (this is just an identifier for your app. this is not confidential dont worry about that)
+3. paste your AppID into the Application ID field in the swiftify account settings.
+
+this integration works with the native app, Canary builds, Beta builds, Vesktop and app stores like Flatpak or Snap
 
 ## Prebuilt builds
 
@@ -205,10 +207,13 @@ the tray. `-DSWIFTIFY_DESKTOP_INTEGRATION=OFF` turns those off.
 
 **because most Windows users cant even use their own OS, i made a script that handles building so it's as simple as possible :)**
 
-first install Qt 6.10+ with *Qt Shader Tools* and *Qt WebSockets*, CMake and Ninja from the Qt online installer,
-Rust from [rustup](https://rustup.rs), and Git. choose either Qt for *MSVC 2022 64-bit*
-with Visual Studio 2022 17.1+ (or Build Tools) and its *Desktop development with C++*
-workload, or Qt for *MinGW 64-bit* with its matching MinGW toolchain.
+install:
+- **Qt 6.10** with *Qt Shader Tools* and *Qt WebSockets*, **CMake** and **Ninja** from the **Qt online Installer**
+- **Rust** from [rustup](https://rustup.rs)
+- **git** from [git-scm.com](https://git-scm.com/install/)
+
+choose either **Qt for MSVC 2022 64-bit** with Visual Studio 2022 17.1+ (or Build Tools) and its *Desktop development with C++*
+workload, or **Qt for MinGW 64-bit** with its matching MinGW toolchain.
 
 then run this in Windows PowerShell:
 
@@ -232,17 +237,17 @@ kit, not just the example folder name.
 lock screen and media keys showing what's playing) need `SystemMediaTransportControls`
 in the compiler's Windows headers.
 
-| toolchain | media controls |
-|---|---|
-| MSVC 2022 | yes |
+| toolchain                                               | media controls            |
+|---------------------------------------------------------|---------------------------|
+| MSVC 2022                                               | yes                       |
 | Qt's MinGW 13.1 (`mingw1310_64`, mingw-w64 runtime v11) | no, everything else works |
-| a newer mingw-w64 (tested: GCC 16.1, runtime v14) | yes |
+| a newer mingw-w64 (tested: GCC 16.1, runtime v14)       | yes                       |
 
 when they're left out, cmake warns `building without the Windows media controls`.
 for every feature, build with MSVC. a newer MinGW works too, but it isn't the one
 your Qt kit was built with, so the script warns about the mismatch.
 
-quit a running installed copy through its tray menu before updating it.
+**quit a running installed copy through its tray menu before updating it.**
 
 if PowerShell blocks the script, review it first, then run
 `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\build-windows.ps1`.
@@ -257,35 +262,18 @@ start the installed app with:
 font downloads are hash-checked on every configure; on Windows, a failed CMake
 download is retried with `curl.exe` using the system certificate store.
 
-
-## Stats
-
-the Stats page (in the sidebar, or `swiftify --stats`) shows what you've been listening to,
-like the [listening-stats](https://github.com/HeadshotInteractive/listening-stats) spicetify app:
-listening time, plays, top songs, artists, albums and genres, when in the day and the week you
-listen, a calendar of the last year, and your recent plays. pick a period (today, 4 weeks,
-6 months, all time) and rank by plays or by time.
-
-it reads from either:
-
-- **stats.fm**, by username. your profile's stats have to be public; nothing else is needed.
-- **this computer**: every song you listen to for 30 seconds or more (or half of a shorter one)
-  gets kept in `listening-history.jsonl` in swiftify's data folder, and never leaves it. genres
-  come from spotify through your library login. you can export the history as csv, or turn
-  tracking off, under Settings → Listening Stats.
-
 ## Command line
 
 only one swiftify runs at a time. launching it again just passes the command to the one
 that's already running, so these work great as keybinds:
 
-| flag | |
-|---|---|
-| `--immersive` | open the immersive player |
-| `--play-pause` | play or pause |
-| `--next` | next song |
-| `--previous` | previous song |
-| `--stats` | open the stats page |
+| flag           |                           |
+|----------------|---------------------------|
+| `--immersive`  | open the immersive player |
+| `--play-pause` | play or pause             |
+| `--next`       | next song                 |
+| `--previous`   | previous song             |
+| `--stats`      | open the stats page       |
 
 on hyprland for example:
 
@@ -293,6 +281,10 @@ on hyprland for example:
 bind = SUPER SHIFT, M, exec, swiftify --immersive
 bind = , XF86AudioPlay, exec, swiftify --play-pause
 ```
+
+## Authors
+
+Swiftify was developed by [shred0s](https://github.com/shred0s) at [github.com/swiftify-org/swiftify](https://github.com/swiftify-org/swiftify)
 
 ## License
 

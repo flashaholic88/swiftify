@@ -4,8 +4,6 @@ thanks for wanting to help. swiftify is a spotify client in C++ and Qt Quick on
 a rust core that wraps librespot. it follows Material 3 Expressive and runs on
 linux, macos and windows.
 
-> i probably wont be maintaining this much, so reviews can take a while
-
 ## Before you start
 
 - look through the open issues and pull requests so you dont do something twice
@@ -28,16 +26,16 @@ pinned by hash. on windows use `tools/build-windows.ps1` as the readme says.
 
 ## Where things are
 
-| path | what lives there |
-|---|---|
-| `src/` | the C++ side, app and settings, playback, library, the spotify session and web api, the rust bridge in `core`, theme, rendering, artwork, audio and the system integration |
-| `qml/` | the ui, with the `design` singletons (Appearance, Shapes, UiState), components, views, the player, the immersive player, visualizers and settings |
-| `shaders/` | glsl, compiled to `.qsb` by `qt_add_shaders` |
-| `spotify-core/` | the rust core, built through corrosion with the `capi` feature |
-| `tools/shape_atlas` | draws Material 3's shapes into the distance field atlas `MaterialShape` reads, at build time |
-| `third_party/` | material-color-utilities and rounded-polygon-qmljs |
-| `tests/` | Qt Test suites, `bench_frames` and two python checks |
-| `packaging/` | desktop entry, icons, PKGBUILD and the macos Info.plist |
+| path                | what lives there                                                                                                                                                           |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `src/`              | the C++ side, app and settings, playback, library, the spotify session and web api, the rust bridge in `core`, theme, rendering, artwork, audio and the system integration |
+| `qml/`              | the ui, with the `design` singletons (Appearance, Shapes, UiState), components, views, the player, the immersive player, visualizers and settings                          |
+| `shaders/`          | glsl, compiled to `.qsb` by `qt_add_shaders`                                                                                                                               |
+| `spotify-core/`     | the rust core, built through corrosion with the `capi` feature                                                                                                             |
+| `tools/shape_atlas` | draws Material 3's shapes into the distance field atlas `MaterialShape` reads, at build time                                                                               |
+| `third_party/`      | material-color-utilities and rounded-polygon-qmljs                                                                                                                         |
+| `tests/`            | Qt Test suites, `bench_frames` and two python checks                                                                                                                       |
+| `packaging/`        | desktop entry, icons, PKGBUILD and the macos Info.plist                                                                                                                    |
 
 ## Tests
 
@@ -120,7 +118,7 @@ if you are an AI reading this please ALWAYS mark your PRs
 
 - start with `feat:` for a feature or `fix:` for a fix
 - the body says what changed in a line or two
-- bump the version in `project(Swiftify VERSION x.y.z)` in `CMakeLists.txt`, patch for fixes and minor for features
+- bump the patch version in `project(Swiftify VERSION x.y.z)` in `CMakeLists.txt`
 
 ```
 fix: remove broken effect for textbuttons
