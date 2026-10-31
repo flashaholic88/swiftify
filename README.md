@@ -53,7 +53,13 @@ id recommend turning the visualizers and background off if the app runs in the b
 > [!IMPORTANT]
 > swiftify needs **spotify premium** and **your own spotify client id**, see [before you start](#before-you-start)
 
-### arch linux
+> [!NOTE]
+> on linux your login gets saved in the secret service through QtKeychain, so u need something
+> providing one, like gnome-keyring, kwallet or keepassxc
+
+<details>
+<summary><b>arch linux</b></summary>
+<br>
 
 all three are on the aur, install one with paru or yay
 
@@ -67,7 +73,11 @@ all three are on the aur, install one with paru or yay
 paru -S swiftify-bin
 ```
 
-### fedora and opensuse tumbleweed
+</details>
+
+<details>
+<summary><b>fedora and opensuse tumbleweed</b></summary>
+<br>
 
 the [copr](https://copr.fedorainfracloud.org/coprs/shredos/swiftify/) gets a build of every release for x86_64 and aarch64
 
@@ -86,21 +96,66 @@ sudo zypper refresh
 sudo zypper install swiftify
 ```
 
-### prebuilt releases
+updates come in with the rest of your system updates
 
-[releases](https://github.com/swiftify-org/swiftify/releases) have windows and linux x86_64 builds,
-and a macos dmg for apple silicon. u can also get them from [shredos.dev](https://shredos.dev/#download).
+</details>
 
-- **windows.** unzip it anywhere and run `bin\swiftify.exe`.
-- **linux.** unpack it anywhere and run `bin/swiftify`. it brings its own Qt, but needs
-  alsa and libsecret, which pretty much every desktop already has.
-- **macos.** needs macos 14.4 or newer. open the dmg and drag swiftify into applications.
-  its signed ad hoc, so the first launch gets blocked, open it anyway from system settings ›
-  privacy & security, or run `xattr -dr com.apple.quarantine /Applications/Swiftify.app`.
+<details>
+<summary><b>other linux</b></summary>
+<br>
 
-> [!NOTE]
-> on linux your login gets saved in the secret service through QtKeychain, so u need something
-> providing one, like gnome-keyring, kwallet or keepassxc
+[![download for linux](https://img.shields.io/badge/download-linux_x86__64-6750a4?style=for-the-badge&logo=linux&logoColor=white&labelColor=1d1b20)](https://github.com/swiftify-org/swiftify/releases/latest)
+
+grab the `linux-x86_64.tar.gz` from the latest release. it brings its own Qt, but needs alsa and libsecret,
+which pretty much every desktop already has. unpack it anywhere and run `bin/swiftify` inside it
+
+```sh
+tar -xzf swiftify-*-linux-x86_64.tar.gz
+./swiftify-*-linux-x86_64/bin/swiftify
+```
+
+to update, quit swiftify, unpack the new release and delete the old folder
+
+</details>
+
+<details>
+<summary><b>macos</b></summary>
+<br>
+
+[![download for macos](https://img.shields.io/badge/download-macos_apple_silicon-6750a4?style=for-the-badge&logo=apple&logoColor=white&labelColor=1d1b20)](https://github.com/swiftify-org/swiftify/releases/latest)
+
+grab the `macos-arm64.dmg` from the latest release. it needs an apple silicon mac on macos 14.4 or newer
+
+1. open the dmg and drag swiftify into applications
+2. its signed ad hoc, so macos blocks the first launch. open system settings › privacy & security
+   and click open anyway, or run
+   ```sh
+   xattr -dr com.apple.quarantine /Applications/Swiftify.app
+   ```
+3. after that it opens like any other app
+
+to update, quit swiftify and drag the new version into applications over the old one
+
+</details>
+
+<details>
+<summary><b>windows</b></summary>
+<br>
+
+[![download for windows](https://img.shields.io/badge/download-windows_x64-6750a4?style=for-the-badge&labelColor=1d1b20)](https://github.com/swiftify-org/swiftify/releases/latest)
+
+grab the `windows-x86_64.zip` from the latest release. it brings everything it needs, so there is no installer
+
+1. extract the zip and move the folder inside it somewhere it can stay, like `%LOCALAPPDATA%\Programs\Swiftify`
+2. run `bin\swiftify.exe` in that folder
+3. the exe isnt signed, so if smartscreen says windows protected your pc, click more info and then run anyway
+4. to get it in the start menu, right click `swiftify.exe` and pin it to start
+
+to update, quit the running copy through its tray menu, then copy the new folder's contents over the old one
+
+</details>
+
+u can also get every build from [shredos.dev](https://shredos.dev/#download)
 
 ## before you start
 
