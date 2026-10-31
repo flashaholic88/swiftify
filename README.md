@@ -146,7 +146,20 @@ dark and tinted looks; with just the command line tools it's built from the PNGs
 
 ### Linux
 
-on arch either build a proper package, which installs to `/usr`:
+on arch install from the aur with paru or yay:
+
+```sh
+# precompiled release binary (recommended)
+paru -S swiftify-bin
+
+# or build from source
+paru -S swiftify
+
+# or development branch (git master)
+paru -S swiftify-git
+```
+
+or build a package manually:
 
 ```sh
 git clone https://github.com/shredos67/swiftify.git
